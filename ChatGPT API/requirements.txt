@@ -1,3 +1,0 @@
-flask
-gemini API
-python-dotenv
