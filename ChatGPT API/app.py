@@ -13,7 +13,11 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Load environment variables
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+else:
+    load_dotenv()
 
 app = Flask(__name__)
 
@@ -23,11 +27,11 @@ chats = {}
 # Initialize OpenAI client with OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY", "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")
+    api_key="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"
 )
 
 # Store chat history
-CHAT_HISTORY_FILE = '/tmp/chat_history.json'
+CHAT_HISTORY_FILE = 'chat_history.json'
 
 def load_chat_history():
     if os.path.exists(CHAT_HISTORY_FILE):
@@ -114,7 +118,7 @@ def chat():
             # Make API request using OpenAI client
             completion = client.chat.completions.create(
                 extra_headers={
-                    "HTTP-Referer": os.getenv("VERCEL_URL", "http://localhost:5000"),
+                    "HTTP-Referer": "http://localhost:5000",
                     "X-Title": "Chat Bot"
                 },
                 model="google/gemini-2.0-flash-exp:free",
@@ -148,9 +152,6 @@ def chat():
             "error": "An unexpected error occurred",
             "details": str(e)
         }), 500
-
-# For Vercel
-app = app
 
 if __name__ == '__main__':
     app.run(debug=True)
