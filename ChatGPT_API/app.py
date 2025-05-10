@@ -27,7 +27,7 @@ chats = {}
 # Initialize OpenAI client with OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY", "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")
+    api_key=os.getenv("OPENROUTER_API_KEY", "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")
 )
 
 # Store chat history
