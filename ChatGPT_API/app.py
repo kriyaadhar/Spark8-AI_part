@@ -27,12 +27,7 @@ chats = {}
 # Initialize OpenAI client with OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY", "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"),
-    default_headers={
-        "HTTP-Referer": "https://spark8-ai-chatbot.onrender.com",
-        "X-Title": "Spark8 AI Chatbot",
-        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY', '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')}"
-    }
+    api_key="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"
 )
 
 # Store chat history
@@ -122,12 +117,11 @@ def chat():
         try:
             # Make API request using OpenAI client
             completion = client.chat.completions.create(
-                extra_headers={
-                    "HTTP-Referer": "http://localhost:5000",
-                    "X-Title": "Chat Bot"
-                },
                 model="google/gemini-2.0-flash-exp:free",
-                messages=messages
+                messages=messages,
+                headers={
+                    "Authorization": f"Bearer {api_key}"
+                }
             )
 
             bot_response = completion.choices[0].message.content
