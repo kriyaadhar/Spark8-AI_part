@@ -27,7 +27,12 @@ chats = {}
 # Initialize OpenAI client with OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY", "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")
+    api_key=os.getenv("OPENROUTER_API_KEY", "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"),
+    default_headers={
+        "HTTP-Referer": "https://spark8-ai-chatbot.onrender.com",
+        "X-Title": "Spark8 AI Chatbot",
+        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY', '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')}"
+    }
 )
 
 # Store chat history
